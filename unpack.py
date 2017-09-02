@@ -1,14 +1,15 @@
-import sys
-import os
-import shutil
+import sys, os, shutil
+
 
 ext_name = sys.argv[1]
-template_path = os.getcwd() + '/' + ext_name
-fm_asset = open(template_path + '/unpack/file_manager.py', 'r').read().format(
-    ext_name=ext_name,
-)
-file = open(template_path + '/helpers/file_manager.py', 'w')
+fm_asset = open(os.getcwd() + '/unpack/file_manager.py', 'r').read()
+
+# The usual format() won't work because of other dicts in the file.
+fm_asset = fm_asset.replace("<%ext_name%>", "'" + ext_name + "'")
+
+file = open(os.getcwd() + '/helpers/file_manager.py', 'w')
 file.write(fm_asset)
 file.close()
 
-shutil.rmtree(template_path + '/unpack')
+shutil.rmtree(os.getcwd() + '/unpack')
+os.remove(os.getcwd() + '/unpack.py')

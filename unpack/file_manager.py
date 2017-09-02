@@ -7,7 +7,7 @@ from helpers.data_detection import get_brackets, get_type, list_index_positions,
 from helpers.commas import soft_comma
 from helpers.config_manager import get_cfg, set_cfg
 
-EXTENSION_NAME = {ext_name}
+EXTENSION_NAME = <%ext_name%>
 
 def mkpath(path, name):
     cfg = get_cfg()
