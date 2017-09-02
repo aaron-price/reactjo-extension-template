@@ -5,6 +5,33 @@ import re
 from six import string_types
 from helpers.data_detection import get_brackets, get_type, list_index_positions, detect_duplicate
 from helpers.commas import soft_comma
+from helpers.config_manager import get_cfg, set_cfg
+
+PROJECT_NAME = {project_name}
+EXTENSION_NAME = {ext_name}
+
+def mkpath(path, name):
+    cfg = get_cfg()
+    if name not in cfg['paths'].keys():
+        cfg['paths'][name] = path
+        set_cfg(cfg)
+
+def mkdir(path, name):
+    if not os.path.exists(path):
+        os.mkdir(path)
+        mkpath(path, name)
+
+def ls():
+    print(" ")
+    for name, path in get_cfg()['paths'].items():
+        print(path, "\t|\tp(" + name + ")")
+    print(" ")
+
+def get_path(name):
+    all_paths = get_cfg()['paths']
+    path_names = all_paths.keys()
+    ext_name = EXTENSION_NAME + "_" name
+    return ext_name if ext_name in all_paths else name
 
 def file_append(path, content):
     file = open(path, 'a')
@@ -34,10 +61,6 @@ def file_write(path, content):
     file = open(path, 'w')
     file.write(content)
     file.close()
-
-def mkdir(path):
-    if not os.path.exists(path):
-        os.mkdir(path)
 
 def file_remove(path):
     os.remove(path)
@@ -169,8 +192,6 @@ def file_manager(path, query, data = None):
     q = query.lower()
     if q == 'exists':
         return os.path.exists(path)
-    if q == 'mkdir':
-        mkdir(path)
     if q in ['w', 'write', 'create']:
         if isinstance(data, string_types):
             file_write(path, data)
@@ -178,6 +199,8 @@ def file_manager(path, query, data = None):
             ln_overwrite(path, data)
     if q in ['d','remove','delete']:
         file_remove(path)
+    if q in ['mkdir']:
+        mkdir(path)
     if q in ['f','format']:
         return file_parse(path, data)
     if q in ['p', 'prepend']:
