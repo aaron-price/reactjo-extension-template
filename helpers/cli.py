@@ -1,6 +1,6 @@
 import os
 import subprocess
-from helpers.path_manager import path_manager as p
+from helpers.file_manager import get_path as p
 
 def npm(args):
 	os.chdir(p('package.json'))
