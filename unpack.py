@@ -1,9 +1,8 @@
 import sys
 import os
 import shutil
-project_name = sys.argv[1]
-ext_name = sys.argv[2]
 
+ext_name = sys.argv[1]
 fm_asset = open(os.getcwd() + '/unpack/file_manager.py', 'r').read().format(
     ext_name=ext_name
 )
