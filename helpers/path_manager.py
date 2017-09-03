@@ -1,13 +1,13 @@
 from helpers.config_manager import get_cfg
 
-def mkdir(path, name):
+def mkdir(path, name = None):
     # Create directory
     if not os.path.exists(path):
         os.mkdir(path)
 
     # Create path entry in config
     cfg = get_cfg()
-    if not name in cfg['paths'].keys():
+    if not name in cfg['paths'].keys() and name is not None:
         cfg['paths'][name] = path
         set_cfg(cfg)
 
