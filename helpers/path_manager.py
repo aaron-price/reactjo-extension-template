@@ -1,25 +1,23 @@
 from helpers.config_manager import get_cfg, set_cfg
+from helpers.extension_constants import OUTPUT_HOME, RC_HOME
 import os
-
-output_home = 'your_output_home_here'
-rc_home = 'your_rc_home_here'
 
 def parse_shortcuts(path):
     cfg = get_cfg()
     su_path = cfg['paths']['super_root']
     prj_path = cfg['paths']['project_root']
-    out_path = os.path.join(prj_path, output_home)
+    out_path = os.path.join(prj_path, OUTPUT_HOME)
 
     shortcuts = {
         '$su': su_path,
         '$rc': os.path.join(su_path, 'reactjorc'),
         '$project': prj_path,
         '$prj': prj_path,
-        '$output': os.path.join(prj_path, output_home),
-        '$out': os.path.join(prj_path, output_home),
-        '$extension': os.path.join(su_path, 'reactjorc/extensions', rc_home),
-        '$ext': os.path.join(su_path, 'reactjorc/extensions', rc_home),
-        '$assets': os.path.join(su_path, 'reactjorc/extensions', rc_home, 'assets'),
+        '$output': os.path.join(prj_path, OUTPUT_HOME),
+        '$out': os.path.join(prj_path, OUTPUT_HOME),
+        '$extension': os.path.join(su_path, 'reactjorc/extensions', RC_HOME),
+        '$ext': os.path.join(su_path, 'reactjorc/extensions', RC_HOME),
+        '$assets': os.path.join(su_path, 'reactjorc/extensions', RC_HOME, 'assets'),
     }
     if 'shortcuts' not in cfg['paths'].keys():
         cfg['paths']['shortcuts'] = shortcuts
