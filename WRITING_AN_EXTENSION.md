@@ -149,8 +149,7 @@ optional_options = options_input('Pick a colour', 'red','green','blue'], 'red')
 #### worklist
 Pass a string to worklist describing what your code just did.
 
-When the current `reactjo <cmd>` finishes running, it prints a friendly list of
-everything that just happened.
+When the current `reactjo <cmd>` finishes running, reactjo core prints a friendly list of everything that just happened.
 
 ```
 from helpers.worklist import worklist as wl
