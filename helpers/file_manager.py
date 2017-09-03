@@ -165,6 +165,12 @@ def file_parse(path, data):
 def file_manager(path, query, data = None):
     path = parse_shortcuts(path)
     q = query.lower()
+
+    # If data is a path, then pass the file contents instead of the path
+    if isinstance(data, string_types):
+        if os.path.exists(parse_shortcuts(data)):
+            data = file_manager(data, 'r')
+
     if q == 'exists':
         return os.path.exists(path)
     if q == 'path':

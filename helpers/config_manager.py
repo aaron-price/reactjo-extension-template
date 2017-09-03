@@ -16,13 +16,6 @@ def json_write(path, content):
 def find_config_path():
     def check():
         # reactjo.json exists?
-        if os.path.exists('./reactjorc'):
-            if os.path.isfile('./reactjorc/config.json'):
-                print("config found!")
-            else:
-                print("rc found, but no config")
-        else:
-            print("Couldn't find rc. bubbling up.")
         config_file = os.path.isfile('./reactjorc/config.json')
         checked.append(os.getcwd())
         return found() if config_file else bubble_up(os.getcwd())

@@ -36,6 +36,15 @@ def test_file_manager_writing():
     file_manager(new_file, 'write', contents)
     assert(file_manager(new_file, 'exists') == True)
 
+def test_file_write_from_path():
+    src = '$su/tests/sandbox/write_from_src.txt'
+    target = '$su/tests/sandbox/write_from_target.txt'
+    file_manager(target, 'w', src)
+
+    actual = file_manager(target, 'r')
+    expected = 'Hello World\n'
+    assert(actual == expected)
+
 def test_file_manager_line_remove():
     settings = file_manager(settings_file, 'r')
     overwritable_path = 'tests/sandbox/overwrite_me.py'
