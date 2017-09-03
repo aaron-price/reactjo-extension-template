@@ -1,1 +1,6 @@
-{}
+{
+  "tests/test_config.py": true,
+  "tests/test_data_detection.py": true,
+  "tests/test_file_manager.py": true,
+  "tests/test_path_manager.py": true
+}

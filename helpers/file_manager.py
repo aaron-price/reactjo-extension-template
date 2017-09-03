@@ -5,8 +5,7 @@ import re
 from six import string_types
 from helpers.data_detection import get_brackets, get_type, list_index_positions, detect_duplicate
 from helpers.commas import soft_comma
-
-EXTENSION_NAME = 'your_extension_name'
+from helpers.path_manager import parse_shortcuts
 
 def file_append(path, content):
     file = open(path, 'a')
@@ -164,6 +163,7 @@ def file_parse(path, data):
     return string
 
 def file_manager(path, query, data = None):
+    # parsed_path = parse_shortcuts(path)
     q = query.lower()
     if q == 'exists':
         return os.path.exists(path)
