@@ -1,3 +1,4 @@
+import os
 from helpers.file_manager import file_manager
 
 good_path = 'tests/sandbox/exists'
@@ -13,17 +14,12 @@ settings_kittens = 'tests/sandbox/settings_kittens.py'
 new_settings = 'tests/sandbox/new_settings.py'
 settings_custom = 'tests/sandbox/settings_config_custom.py'
 
-def debug_print(e, a):
-    print("EXPECTED")
-    print(e)
-    print("ACTUAL")
-    print(a)
 
 
 # Check existence.
 def test_file_manager_existance():
     assert(file_manager(good_path, 'exists') == True)
-    assert(file_manager(bad_path, 'exists') == False) 
+    assert(file_manager(bad_path, 'exists') == False)
     assert(file_manager(good_file, 'exists') == True)
     assert(file_manager(bad_file, 'exists') == False)
 
@@ -163,8 +159,6 @@ def test_file_manager_templating():
     data = {'app_name': 'Fooness','model_name': 'Bar'}
     component = file_manager(basic_component, 'f', data)
 
-    print("PARSE THIS!", component)
-    
     file_manager(parsed_component, 'w', component)
 
     expected = file_manager(expected_parsed_component, 'r')
@@ -175,6 +169,3 @@ def test_file_manager_templating():
 def test_file_manager_removing():
     file_manager(new_file, 'remove')
     assert(file_manager(new_file, 'exists') == False)
-
-
-
