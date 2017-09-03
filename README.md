@@ -14,7 +14,7 @@ reactjo init
 ```
 {
     "uri": "https://github.com/your-name/extension_name_here.git",
-    "rc_home": "extension_name_here"
+    "rc_home": "extension_name_here",
     "branch": "master"
 }
 ```
