@@ -23,6 +23,12 @@ def test_file_manager_existance():
     assert(file_manager(good_file, 'exists') == True)
     assert(file_manager(bad_file, 'exists') == False)
 
+# Check a path
+def test_file_manager_path():
+    actual = file_manager('$prj/backend/foo/bar', 'path')
+    expected = os.getcwd() + '/www/backend/foo/bar'
+    assert(actual == expected)
+
 # Writing
 def test_file_manager_writing():
     contents = 'Hello world!'

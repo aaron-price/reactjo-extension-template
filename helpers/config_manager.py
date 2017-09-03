@@ -15,43 +15,44 @@ def json_write(path, content):
 
 def find_config_path():
     def check():
-    # reactjo.json exists?
+        # reactjo.json exists?
+        if os.path.exists('./reactjorc'):
+            if os.path.isfile('./reactjorc/config.json'):
+                print("config found!")
+            else:
+                print("rc found, but no config")
+        else:
+            print("Couldn't find rc. bubbling up.")
         config_file = os.path.isfile('./reactjorc/config.json')
         checked.append(os.getcwd())
-        print("CHECKING FOR CONFIG AT: ", os.getcwd())
-
-        if config_file:
-            return found()
-        else:
-            return bubble_up(os.getcwd())
+        return found() if config_file else bubble_up(os.getcwd())
 
     def bubble_up(prev_path):
         os.chdir("..")
         next_path = os.getcwd()
-        if prev_path == next_path:
-            # Escape the recursion if "cd .." does nothing.
-            raise Exception()
-        else:
-            return check()
+        # Escape the recursion if "cd .." does nothing.
+        raise Exception() if prev_path == next_path else check()
 
     def found():
         return os.getcwd() + '/reactjorc/config.json'
 
     return check()
 
-    def get_cfg():
-        try:
-            return json_read(find_config_path())
-        except:
-            print("Sorry, couldn't find the config.json file. cd to that directory, or a child directory.")
-            print("""If there really is no config.json, you probably need to create a project. Try running:
-            ----------------------
-            reactjo init
-            ----------------------
-            """)
-            print("Paths checked for a 'reactjorc/' directory:")
-            for path in checked:
-                print(path)
+def get_cfg():
+    try:
+        return json_read(find_config_path())
+    except:
+        print("""
+            Sorry, couldn't find the config.json file. cd to that directory,
+            or a child directory. If there really is no config.json, you
+            probably need to create a project. Try running:
+                        ----------------------
+                            reactjo init
+                        ----------------------
+            Paths checked for a reactjorc/config.json:
+        """)
+        for path in checked:
+            print(path)
 
 def set_cfg(content):
     json_write(find_config_path(), content)

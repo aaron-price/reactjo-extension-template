@@ -1,5 +1,5 @@
 from tests.config_mock import setup_config, teardown_config
-from helpers.path_manager import get_path, mkdir, ls, parse_shortcuts
+from helpers.path_manager import mkdir, parse_shortcuts
 import os
 
 def test_parse_shortcuts():
@@ -49,12 +49,13 @@ def test_parse_shortcuts():
 
 
 
-# def test_mkdir():
-#     setup_config()
-#     mkdir('tests/sandbox/path_manager', 'pm')
-#     assert(os.path.exists('tests/sandbox/path_manager'))
-#
-#     from helpers.config_manager import get_cfg
-#     assert('pm' in get_cfg()['paths'].keys())
 
-# teardown_config()
+def test_mkdir():
+    from helpers.config_manager import get_cfg
+    mkdir('$su/tests/sandbox/path_manager', 'pm')
+    assert(os.path.exists('tests/sandbox/path_manager'))
+    assert('pm' in get_cfg()['paths'].keys())
+
+    # Teardown.
+    os.rmdir(parse_shortcuts('$su/tests/sandbox/path_manager'))
+    teardown_config()

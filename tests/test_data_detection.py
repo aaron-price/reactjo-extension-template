@@ -2,6 +2,7 @@ from helpers.data_detection import get_brackets, get_variable, get_string_conten
 from helpers.commas import soft_comma
 import os
 from helpers.file_manager import file_manager
+from tests.config_mock import setup_config, teardown_config
 
 def debug_print(e, a):
     print("EXPECTED")
@@ -10,6 +11,7 @@ def debug_print(e, a):
     print(a)
 
 def test_get_string_contents():
+    setup_config()
     string = "foo = 'hello!'"
     assert(get_string_contents(string, 0) == "'hello!'")
 
