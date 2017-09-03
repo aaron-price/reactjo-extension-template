@@ -10,23 +10,26 @@ def parse_shortcuts(path):
     prj_path = cfg['paths']['project_root']
     out_path = os.path.join(prj_path, output_home)
 
-    lexicon = {
+    shortcuts = {
         '$su': su_path,
         '$rc': os.path.join(su_path, 'reactjorc'),
         '$project': prj_path,
         '$prj': prj_path,
-        '$output': os.path.join(cfg['paths']['project_root'], output_home),
-        '$out': os.path.join(cfg['paths']['project_root'], output_home),
+        '$output': os.path.join(prj_path, output_home),
+        '$out': os.path.join(prj_path, output_home),
         '$extension': os.path.join(su_path, 'reactjorc/extensions', rc_home),
         '$ext': os.path.join(su_path, 'reactjorc/extensions', rc_home),
         '$assets': os.path.join(su_path, 'reactjorc/extensions', rc_home, 'assets'),
     }
+    if 'shortcuts' not in cfg['paths'].keys():
+        cfg['paths']['shortcuts'] = shortcuts
     parsed_string = path
-    for key, value in lexicon.items():
+    for key, value in shortcuts.items():
         parsed_string = os.path.join(parsed_string.replace(key, value))
     return parsed_string
 
 def mkdir(path, name = None):
+    path = parse_shortcuts(path)
     # Create directory
     if not os.path.exists(path):
         os.mkdir(path)
