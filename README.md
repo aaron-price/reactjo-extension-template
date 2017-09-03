@@ -11,7 +11,8 @@ pip install reactjo
 1. Clone the template
 ```bash
 reactjo extend
-cd template
+# Name the extension
+cd extension_name
 ```
 (Note if you directly cloned it yourself, you'll need to edit ./helpers/extension_constants.py)
 But reactjo extend does this automatically.
