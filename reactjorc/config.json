@@ -1,4 +1,7 @@
 {
-	"paths": {},
-	"project_name": "www"
+    "paths": {
+        "super_root": "/Users/aaron/Documents/repos/reactjo-extensions/reactjo-extension-template",
+        "project_root": "/Users/aaron/Documents/repos/reactjo-extensions/reactjo-extension-template/www"
+    },
+    "project_name": "www"
 }

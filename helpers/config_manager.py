@@ -39,19 +39,19 @@ def find_config_path():
 
     return check()
 
-    def get_cfg():
-        try:
-            return json_read(find_config_path())
-        except:
-            print("Sorry, couldn't find the config.json file. cd to that directory, or a child directory.")
-            print("""If there really is no config.json, you probably need to create a project. Try running:
-            ----------------------
-            reactjo init
-            ----------------------
-            """)
-            print("Paths checked for a 'reactjorc/' directory:")
-            for path in checked:
-                print(path)
+def get_cfg():
+    try:
+        return json_read(find_config_path())
+    except:
+        print("Sorry, couldn't find the config.json file. cd to that directory, or a child directory.")
+        print("""If there really is no config.json, you probably need to create a project. Try running:
+        ----------------------
+        reactjo init
+        ----------------------
+        """)
+        print("Paths checked for a 'reactjorc/' directory:")
+        for path in checked:
+            print(path)
 
 def set_cfg(content):
     json_write(find_config_path(), content)
