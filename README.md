@@ -6,7 +6,7 @@ Start with this if you haven't already
 virtualenv venv
 source venv/bin/activate
 pip install reactjo
-reactjo init
+reactjo rc
 ```
 
 2. In reactjorc/config.json, add this to the extensions array:
