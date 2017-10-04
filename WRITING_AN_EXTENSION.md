@@ -9,7 +9,7 @@ reactjo extend
 cd extension_name
 ```
 (Note if you directly cloned it yourself, you'll need to edit ./helpers/extension_constants.py)
-But reactjo extend does this automatically.
+But `reactjo extend` does this automatically.
 
 2. Make some changes.
 3. Update this README.md.
@@ -26,33 +26,61 @@ You should probably add a module for the command under extension_name_here/comma
 
 ## Helpers
 #### file_manager
+**file_manager(
+    <string> output_file_or_path,
+    <string> query,
+    [<string/dict> input_file_or_path]
+)**
+Use this for super simple file manipulation.
 
-File manager automatically uses the path_manager helper. Use this for super simple file manipulation.
-For example to copy your foobar.txt asset into your main output directory:
-```
+Example:
+Suppose your project is called "project", and your extension creates an app called "app"
+The file structure might look like this:
+/venv
+/project
+    /app
+        /index.html
+        ...
+/reactjorc
+    /config.json
+    /extensions/
+        /your_extension_name
+            /assets
+                /foo.txt
+
+But what if you want to copy your foobar.txt asset into your app directory right beside index.html? This is VERY common problem when scaffolding. Here's the solution.
+
+Open up commands/new.py and put this in your function.
+
+``` python
 from helpers.file_manager import file_manager as f
 f('$out/foobar.txt', 'w', '$assets/foobar.txt')
 ```
-As you can see the basic syntax is f(output path, query type, input path or data dictionary).
-The $out and $assets are shortcuts courtesy of helpers/path_manager.py. Check it out to see more.
-So in this case, it's saying "In the output file, write the input file."
+
+Now when the end user runs `reactjo new`, the foobar.txt file will be in project/app/
+
+You're probably wondering about '$out' and '$assets'. Those are just shortcuts courtesy of helpers/path_manager.py. Check it out to see more. You can add your own shortcuts there.
+
+The second argument, 'w', is the query, and it's short for 'write'.
+
+So in this case, it's saying "In the output file (/path/to/app/foobar.txt), write the input file (/path/to/reactjorc/extensions/your_extension/assets/foobar.txt)". Since the output file doesn't exist, it creates it. You could have named it anything you wanted.
 
 Some other queries are:
-append: f(path, 'a', <string|dict>)
-exists: f(path, 'exists')
-write: f(path, 'w', <string|dict>)
-delete: f(path, 'd', <string>)
-prepend: f(path, 'p', <string|dict>)
-read: f(path, 'r')
-format: f(path, 'f', <dict>) *
+**append**: f(path, 'a', <string|dict>) Adds the input to the end of the input file
+**exists**: f(path, 'exists') Returns true or false. Checks both files and directories
+**write**: f(path, 'w', <string|dict>) Creates or overwrites the output file with the input
+**delete**: f(path, 'd') Deletes the file
+**prepend**: f(path, 'p', <string|dict>) Adds the input to the beginning of the input file
+**read**: f(path, 'r') Returns the file as a string
+**path**: f(path, '$') Returns the absolute path, even when you give it a shortcut path.
+**format**: f(path, 'f', <dict>) *
 
 * Formatting: Wrap text like <% this %>, and you can replace it... because python's string.format() doesn't work as well when formatting python files with existing dicts. Takes a dict input like {'this': 'something else'}
 
 It gets crazier than that though! If your input is a dictionary, you can do some pretty advanced manipulations.
 
-Example:
-
-```settings.py
+Example settings.py
+```python
 OPTIONS = {
   'cool': 124,
   'my_list': [
@@ -66,9 +94,8 @@ OPTIONS = {
 
 You *could* just add an append line at the bottom of the file, but that doesn't look nice, especially in a settings or config file. Here's a better solution.
 
-```
-
-data = {
+```python
+  data = {
       'target': ['OPTIONS', 'my_list', 1],
       'content': "\n      'custom': 'something custom'"
   }
@@ -94,8 +121,30 @@ Note the comma was added automatically. You might not know whether a trailing co
 
 You're also not limited to a particular filetype. The same would work in settings.js etc.
 
+A similar effect can be achieved with 'w', to overwrite just a single line! One common example from reactjo-nextjs:
+```javascript
+import React from 'react'
+
+const items = []      // <= You need that to say const items = ['name', 'email']
+
+const Component = (props) => {
+  ...
+}
+```
+
+Okie dokes, here we go:
+
+```python
+  data = {
+      'target': 'const items',
+      'content': "const items = ['name', 'email']"
+  }
+  f($out/component.js, 'w', data)
+```
+File manager looks for the first line that starts with data['target'], and replaces that entire line with the string in data['content']
+
 #### config_manager
-Intelligently finds the nearest reactjorc/config.json file so you can access it from pretty much anywhere super_root level or deeper.
+Intelligently finds the nearest reactjorc/config.json file so you can access it from pretty much anywhere.
 
 ```python
 from helpers.config_manager import get_cfg, set_cfg
@@ -143,7 +192,7 @@ mandatory_options = options_input('Pick a colour', ['red','green','blue'])
 # green
 # blue
 # Pick a colour (default red):
-optional_options = options_input('Pick a colour', 'red','green','blue'], 'red')
+optional_options = options_input('Pick a colour', ['red','green','blue'], 'red')
 ```
 
 #### worklist
