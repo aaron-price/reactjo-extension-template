@@ -14,8 +14,6 @@ settings_kittens = 'tests/sandbox/settings_kittens.py'
 new_settings = 'tests/sandbox/new_settings.py'
 settings_custom = 'tests/sandbox/settings_config_custom.py'
 
-
-
 # Check existence.
 def test_file_manager_existance():
     assert(file_manager(good_path, 'exists') == True)
