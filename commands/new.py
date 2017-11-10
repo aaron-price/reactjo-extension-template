@@ -1,2 +1,2 @@
 def new():
-	print("Hello world!")
+    print("Hello world!")
